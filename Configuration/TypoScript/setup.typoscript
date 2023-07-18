@@ -1,0 +1,9 @@
+# Plugin configuration
+plugin.tx_bedefender {
+
+    settings {
+
+    }
+}
+
+

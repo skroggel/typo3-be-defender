@@ -1,0 +1,35 @@
+{
+    "name": "madj2k/t3-be-defender",
+    "type": "typo3-cms-extension",
+    "description": "Extends BE-login with email code verification",
+    "homepage": "https://www.steffenkroggel.de",
+    "license": ["GPL-2.0+"],
+    "keywords": ["TYPO3 CMS", "Backend", "BE", "security", "Multi-Factor-Authentification", "2-Factor-Authentification", "MFA", "2FA"],
+    "support": {
+        "email": "developer@steffenkroggel.de"
+    },
+    "authors": [
+        {
+            "name": "Steffen Kroggel",
+            "email": "developer@steffenkroggel.de",
+            "homepage": "http://www.steffenkroggel.de",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": ">=7.4",
+        "typo3/cms-core": "~9.5.0",
+		"madj2k/t3-core-extended": "~9.5.21",
+		"madj2k/t3-postmaster": "~9.5.21"
+	},
+	"autoload": {
+        "psr-4": {
+            "Madj2k\\BeDefender\\": "Classes/"
+        }
+    },
+    "extra": {
+        "typo3/cms": {
+            "extension-key": "be_defender"
+        }
+    }
+}
