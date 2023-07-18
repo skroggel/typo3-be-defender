@@ -20,7 +20,7 @@
         "php": ">=7.4",
         "typo3/cms-core": "~9.5.0",
 		"madj2k/t3-core-extended": "~9.5.21",
-		"madj2k/t3-postmaster": "~9.5.21"
+		"madj2k/t3-postmaster": "~9.5.11"
 	},
 	"autoload": {
         "psr-4": {
