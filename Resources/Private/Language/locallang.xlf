@@ -17,7 +17,7 @@
                 <source>One-time login code</source>
             </trans-unit>
   			<trans-unit id="templates.backend.loginForm.getCode">
-                <source>Receive a one-time login code by e-mail</source>
+                <source>Receive login code by e-mail</source>
             </trans-unit>
   			<trans-unit id="templates.backend.loginForm.jsErrorNoUserName">
                 <source>Please enter your username so that a one-time login code can be sent to you</source>
