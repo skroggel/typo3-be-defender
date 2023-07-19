@@ -5,17 +5,81 @@ call_user_func(
     function(string $extKey)
     {
 
-        // Use popup window to refresh login instead of the AJAX relogin:
-        $GLOBALS['TYPO3_CONF_VARS']['BE']['showRefreshLoginPopup'] = 1;
+        //=================================================================
+        // Configure Plugin
+        //=================================================================
+        \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
+            'Madj2k.' . $extKey,
+            'AuthCode',
+            array(
+                'AuthCode' => 'generate',
+            ),
+            // non-cacheable actions
+            array(
+                'AuthCode' => 'generate',
+            )
+        );
 
-        $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['backend']['loginProviders'][1689643564] = [
-            'provider' => \Madj2k\BeDefender\LoginProvider\EmailCodeLoginProvider::class,
-            'sorting' => 25,
-            'icon-class' => 'fa-key',
-            'label' => 'LLL:EXT:backend/Resources/Private/Language/locallang.xlf:login.link'
-        ];
+        //=================================================================
+        // Add JS to Backend-Login for AJAX-Request
+        //=================================================================
+        if( TYPO3_MODE == "BE") {
+            $renderer = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Page\PageRenderer::class);
+            $renderer->addJsFile('EXT:be_defender/Resources/Public/Js/Backend.js',
+                'text/javascript',
+                false,
+                false,
+                '',
+                true,
+                '|',
+                true,
+                ''
+            );
+        }
+
+        //=================================================================
+        // Add TypoScript automatically
+        //=================================================================
+        \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTypoScript(
+            'BeDefender',
+            'constants',
+            '<INCLUDE_TYPOSCRIPT: source="FILE: EXT:be_defender/Configuration/TypoScript/constants.typoscript">'
+        );
+
+        \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTypoScript(
+            'BeDefender',
+            'setup',
+            '<INCLUDE_TYPOSCRIPT: source="FILE: EXT:be_defender/Configuration/TypoScript/setup.typoscript">'
+        );
+
+        //=================================================================
+        // Add Login-Services
+        //=================================================================
+        // Use popup window to refresh login instead of the AJAX relogin:
+        //$GLOBALS['TYPO3_CONF_VARS']['BE']['showRefreshLoginPopup'] = 1;
+
+        // override default login provider in order to override the template
+        $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['backend']['loginProviders'][1433416747]['provider'] = \Madj2k\BeDefender\LoginProvider\EmailCodeLoginProvider::class;
+
+        // Register service with TYPO3
+        \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addService(
+            $extKey,
+            'auth',
+            'tx_bedefender_service',
+            [
+                'title' => 'Authentication with AuthCode via Email',
+                'description' => 'Authentication with AuthCode via Email',
+                'subtype' => 'processLoginDataBE,getUserBE,authUserBE',
+                'available' => true,
+                'priority' => 60,
+                'quality' => 50,
+                'os' => '',
+                'exec' => '',
+                'className' => \Madj2k\BeDefender\Service\BackendAuthenticationService::class
+            ]
+        );
 
     },
-    'be_defender'
+    $_EXTKEY
 );
 

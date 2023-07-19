@@ -1,9 +1,103 @@
-# Plugin configuration
-plugin.tx_bedefender {
+#############################################################################
+# Tables that are extended
+#############################################################################
+config.tx_extbase {
+    persistence {
+        classes {
 
+            // ==================================================================
+
+            Madj2k\CoreExtended\Domain\Model\BackendUser {
+                subclasses {
+                    Tx_BeDefender_BackendUser = Madj2k\BeDefender\Domain\Model\BackendUser
+                }
+            }
+
+            Madj2k\BeDefender\Domain\Model\BackendUser {
+                mapping {
+
+                    # tablename
+                    tableName = be_users
+
+                    # if we set an value, we filter by it
+                    # if do not set anything, all records are found
+                    recordType =
+
+                }
+            }
+        }
+    }
+}
+
+#############################################################################
+# Plugin configuration
+#############################################################################
+plugin.tx_bedefender {
+    persistence {
+        storagePid = {$plugin.tx_bedefender.persistence.storagePid}
+    }
+    view {
+        layoutRootPaths {
+            0 = EXT:be_defender/Resources/Private/Layouts/
+            1 = {$plugin.tx_bedefender.view.layoutRootPath}
+        }
+        templateRootPaths {
+            0 = EXT:be_defender/Resources/Private/Templates/
+            1 = {$plugin.tx_bedefender.view.templateRootPath}
+        }
+        partialRootPaths {
+            0 = EXT:be_defender/Resources/Private/Partials/
+            1 = {$plugin.tx_bedefender.view.partialRootPath}
+        }
+    }
+    features {
+
+        # see: https://docs.typo3.org/c/typo3/cms-core/master/en-us/Changelog/8.5/Breaking-78002-EnforceCHashArgumentForExtbaseActions.html
+        requireCHashArgumentForActionArguments = 0
+    }
     settings {
 
     }
 }
 
 
+
+#############################################################################
+# JSON
+#############################################################################
+TxBeDefenderJson = PAGE
+TxBeDefenderJson {
+    typeNum = 1689670530
+    config {
+        disableAllHeaderCode = 1
+        xhtml_cleaning = 0
+        admPanel = 0
+        no_cache = 0
+        debug = 0
+
+        metaCharset = utf-8
+
+        index_enable = 0
+        index_metatags = 0
+        index_externals = 0
+    }
+
+    10 = USER_INT
+    10 {
+        userFunc = TYPO3\CMS\Extbase\Core\Bootstrap->run
+        extensionName = BeDefender
+        pluginName = AuthCode
+        vendorName = Madj2k
+        controller = AuthCode
+        switchableControllerActions {
+            # Again: Controller-Name and Action
+            AuthCode {
+                1 = generate
+            }
+        }
+
+        view < plugin.tx_bedefender.view
+        persistence < plugin.tx_bedefender.persistence
+        settings < plugin.tx_bedefender.settings
+    }
+}
