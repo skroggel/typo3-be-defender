@@ -47,7 +47,10 @@ class EmailCodeLoginProvider implements LoginProviderInterface
         }
 
         // set default value if NOT production
-        if (! \TYPO3\CMS\Core\Utility\GeneralUtility::getApplicationContext()->isProduction()){
+        if (
+            (GeneralUtility::getApplicationContext()->isDevelopment())
+            || (\TYPO3\CMS\Core\Utility\GeneralUtility::getApplicationContext()->__toString() === 'Production/Staging')
+        ){
             $view->assign('presetAuthCode', '12345');
         }
     }

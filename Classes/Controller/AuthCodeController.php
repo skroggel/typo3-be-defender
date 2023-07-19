@@ -66,9 +66,13 @@ class AuthCodeController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControl
 
             // add code to backendUser
             $code = GeneralUtility::getUniqueRandomNumber(5);
-            if (! GeneralUtility::getApplicationContext()->isProduction()){
+            if (
+                (GeneralUtility::getApplicationContext()->isDevelopment())
+                || (\TYPO3\CMS\Core\Utility\GeneralUtility::getApplicationContext()->__toString() === 'Production/Staging')
+            ){
                 $code = '12345';
             }
+
             $backendUser->setTxBedefenderAuthCode($code);
             $backendUser->setTxBedefenderAuthCodeTstamp(time());
             $backendUser->setTxBedefenderAuthCodeUseTstamp(0);
@@ -76,32 +80,38 @@ class AuthCodeController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControl
             $this->backendUserRepository->update($backendUser);
             $this->persistenceManager->persistAll();
 
-            // send email
-            /** @var \Madj2k\Postmaster\Mail\MailMessage $mailMessage */
-            $mailMessage = GeneralUtility::makeInstance(MailMessage::class);
+            if (
+                !(GeneralUtility::getApplicationContext()->isDevelopment())
+                && !(\TYPO3\CMS\Core\Utility\GeneralUtility::getApplicationContext()->__toString() === 'Production/Staging')
+            ) {
+                
+                // send email
+                /** @var \Madj2k\Postmaster\Mail\MailMessage $mailMessage */
+                $mailMessage = GeneralUtility::makeInstance(MailMessage::class);
 
-            $mailMessage->setTo($backendUser, array(
-                'marker' => array(
-                    'authCode' => $code,
-                ),
-            ));
+                $mailMessage->setTo($backendUser, array(
+                    'marker' => array(
+                        'authCode' => $code,
+                    ),
+                ));
 
-            $mailMessage->getQueueMail()->setSubject(
-                FrontendLocalizationUtility::translate(
-                    'email.authCode.subject',
-                    'beDefender',
-                    null,
-                    $backendUser->getLang()
-                )
-            );
+                $mailMessage->getQueueMail()->setSubject(
+                    FrontendLocalizationUtility::translate(
+                        'email.authCode.subject',
+                        'beDefender',
+                        null,
+                        $backendUser->getLang()
+                    )
+                );
 
-            $settings = $this->getSettings();
+                $settings = $this->getSettings();
 
-            $mailMessage->getQueueMail()->addTemplatePaths($settings['view']['templateRootPaths']);
-            $mailMessage->getQueueMail()->setPlaintextTemplate('Email/AuthCode');
-            $mailMessage->getQueueMail()->setHtmlTemplate('Email/AuthCode');
+                $mailMessage->getQueueMail()->addTemplatePaths($settings['view']['templateRootPaths']);
+                $mailMessage->getQueueMail()->setPlaintextTemplate('Email/AuthCode');
+                $mailMessage->getQueueMail()->setHtmlTemplate('Email/AuthCode');
 
-            $mailMessage->send();
+                $mailMessage->send();
+            }
 
             // set status
             $status = 200;
