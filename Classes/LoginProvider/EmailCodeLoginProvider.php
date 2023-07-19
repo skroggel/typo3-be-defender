@@ -45,5 +45,10 @@ class EmailCodeLoginProvider implements LoginProviderInterface
             // $view->assign('presetPassword', GeneralUtility::_GP('p'));
             $view->assign('presetAuthCode', GeneralUtility::_GP('auth_code'));
         }
+
+        // set default value if NOT production
+        if (! \TYPO3\CMS\Core\Utility\GeneralUtility::getApplicationContext()->isProduction()){
+            $view->assign('presetAuthCode', '12345');
+        }
     }
 }

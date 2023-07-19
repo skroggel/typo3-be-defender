@@ -16,7 +16,7 @@ namespace Madj2k\BeDefender\Controller;
 
 use Madj2k\Postmaster\Mail\MailMessage;
 use Madj2k\Postmaster\Utility\FrontendLocalizationUtility;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
+use Madj2k\CoreExtended\Utility\GeneralUtility;
 use Madj2k\BeDefender\Domain\Repository\BackendUserRepository;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
 use TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager;
@@ -65,8 +65,8 @@ class AuthCodeController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControl
         ){
 
             // add code to backendUser
-            $code = \Madj2k\CoreExtended\Utility\GeneralUtility::getUniqueRandomNumber(5);
-            if (GeneralUtility::getApplicationContext()->isDevelopment()) {
+            $code = GeneralUtility::getUniqueRandomNumber(5);
+            if (! GeneralUtility::getApplicationContext()->isProduction()){
                 $code = '12345';
             }
             $backendUser->setTxBedefenderAuthCode($code);
