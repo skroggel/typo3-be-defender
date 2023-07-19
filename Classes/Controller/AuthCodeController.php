@@ -65,7 +65,7 @@ class AuthCodeController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControl
         ){
 
             // add code to backendUser
-            $code = \Madj2k\CoreExtended\Utility\GeneralUtility::getUniqueRandomNumber(25);
+            $code = \Madj2k\CoreExtended\Utility\GeneralUtility::getUniqueRandomNumber(5);
             if (GeneralUtility::getApplicationContext()->isDevelopment()) {
                 $code = '12345';
             }

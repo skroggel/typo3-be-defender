@@ -25,7 +25,7 @@ call_user_func(
         //=================================================================
         if( TYPO3_MODE == "BE") {
             $renderer = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Page\PageRenderer::class);
-            $renderer->addJsFile('EXT:be_defender/Resources/Public/Js/Backend.js',
+            $renderer->addJsFile('EXT:be_defender/Resources/Public/Js/Backend.min.js',
                 'text/javascript',
                 false,
                 false,

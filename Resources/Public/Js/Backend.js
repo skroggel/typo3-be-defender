@@ -1,4 +1,20 @@
-window.addEventListener("DOMContentLoaded", (event) => {
+/**
+ * 2023/07/19
+ * Author: Steffen Kroggel <developer@steffenkroggel.de>
+ * Verion: 9.5.4
+ */
+
+/**
+ * Fix for Google Chrome
+ * see: https://stackoverflow.com/questions/43233115/chrome-content-scripts-arent-working-domcontentloaded-listener-does-not-execut
+ */
+if(document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded',txBeDefenderAfterDOMLoaded);
+} else {
+  txBeDefenderAfterDOMLoaded();
+}
+
+function txBeDefenderAfterDOMLoaded() {
   const button = document.getElementById('tx-bedefender-code-button');
   const usernameField = document.getElementById('t3-username');
 
@@ -10,15 +26,15 @@ window.addEventListener("DOMContentLoaded", (event) => {
         return false;
       }
 
-      // disable visually and technically
-      button.classList.add('disabled');
-      button.setAttribute('data-disabled', '1');
-
       // check for username
       if (usernameField.value == '') {
         alert(txBedefenderTranslations.errorNoUserName);
-        return;
+        return false;
       }
+
+      // disable visually and technically
+      button.classList.add('disabled');
+      button.setAttribute('data-disabled', '1');
 
       // do request
       var ajaxRequest = new XMLHttpRequest();
@@ -69,4 +85,4 @@ window.addEventListener("DOMContentLoaded", (event) => {
 
     });
   }
-});
+}
