@@ -37,7 +37,13 @@ class EmailCodeLoginProvider implements LoginProviderInterface
      */
     public function render(StandaloneView $view, PageRenderer $pageRenderer, LoginController $loginController)
     {
-        $view->setTemplatePathAndFilename(GeneralUtility::getFileAbsFileName('EXT:be_defender/Resources/Private/Templates/LoginForm.html'));
-        $view->assign('presetOpenId', GeneralUtility::_GP('openid_url'));
+        $pageRenderer->loadRequireJsModule('TYPO3/CMS/Backend/UserPassLogin');
+
+        $view->setTemplatePathAndFilename(GeneralUtility::getFileAbsFileName('EXT:be_defender/Resources/Private/Templates/Backend/LoginForm.html'));
+        if (GeneralUtility::getIndpEnv('TYPO3_SSL')) {
+            $view->assign('presetUsername', GeneralUtility::_GP('username'));
+            // $view->assign('presetPassword', GeneralUtility::_GP('p'));
+            $view->assign('presetAuthCode', GeneralUtility::_GP('auth_code'));
+        }
     }
 }

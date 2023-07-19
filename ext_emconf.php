@@ -14,19 +14,19 @@ $EM_CONF[$_EXTKEY] = [
 	'title' => 'BE Defender',
 	'description' => 'Extension sending e-mails and bulk-mailings',
 	'category' => 'plugin',
-	'author' => 'Maximilian Fäßler, Steffen Kroggel',
-	'author_email' => 'maximilian@faesslerweb.de, developer@steffenkroggel.de',
+	'author' => 'Steffen Kroggel',
+	'author_email' => 'developer@steffenkroggel.de',
 	'state' => 'stable',
 	'internal' => '',
 	'uploadfolder' => '0',
 	'createDirs' => '',
 	'clearCacheOnLoad' => 0,
-	'version' => '9.5.11',
+	'version' => '9.5.0',
 	'constraints' => [
 		'depends' => [
             'typo3' => '9.5.0-9.5.99',
-            'accelerator' => '9.5.2-9.5.99',
-            'core_extended' => '9.5.21-9.5.99'
+            'postmaster' => '9.5.11-9.5.99',
+            'core_extended' => '9.5.23-9.5.99'
 		],
 		'conflicts' => [
 		],

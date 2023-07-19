@@ -1,4 +1,21 @@
 plugin.tx_bedefender {
+	persistence {
+		# cat=module.tx_bedefender//a; type=string; label=Default storage PID
+		storagePid =
+	}
+
+	view {
+
+        # cat=plugin.tx_bedefender/file; type=string; label=Path to template layouts (BE)
+        layoutRootPath = EXT:be_defender/Resources/Private/Layouts/
+
+		# cat=plugin.tx_bedefender/file; type=string; label=Path to template root (BE)
+		templateRootPath = EXT:be_defender/Resources/Private/Templates/
+
+		# cat=plugin.tx_bedefender/file; type=string; label=Path to template partials (BE)
+		partialRootPath = EXT:be_defender/Resources/Private/Partials/
+	}
+
     settings {
 
     }
