@@ -19,8 +19,8 @@
                 <target>Einmaliger Login-Code</target>
             </trans-unit>
   			<trans-unit id="templates.backend.loginForm.getCode">
-                <source>Receive a one-time login code by e-mail</source>
-                <target>Einmaligen Login-Code per E-Mail erhalten</target>
+                <source>Receive login code by e-mail</source>
+                <target>Login-Code per E-Mail erhalten</target>
             </trans-unit>
   			<trans-unit id="templates.backend.loginForm.jsErrorNoUserName">
                 <source>Please enter your username so that a one-time login code can be sent to you</source>
