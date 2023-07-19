@@ -1,0 +1,84 @@
+<f:layout name="Login" />
+
+<f:section name="loginFormFields">
+    <div class="form-group t3js-login-username-section" id="t3-login-username-section">
+        <div class="form-control-wrap">
+            <div class="form-control-holder">
+                <input type="text" 
+                       id="t3-username" 
+                       name="username" 
+                       value="{presetUsername}"
+                       aria-label="{f:translate(key: 'templates.backend.loginForm.labelUsername', extensionName: 'be_defender')}"
+                       placeholder="{f:translate(key: 'templates.backend.loginForm.labelUsername', extensionName: 'be_defender')}"
+                       class="form-control input-login t3js-clearable t3js-login-username-field" 
+                       autofocus="autofocus" 
+                       required="required" />
+                <div class="form-notice-capslock hidden t3js-login-alert-capslock">
+                    <img src="{images.capslock}" 
+                         width="14" height="14" 
+                         alt="{f:translate(key: 'login.error.capslock')}" 
+                         title="{f:translate(key: 'login.error.capslock')}" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="form-group t3js-login-password-section" id="t3-login-password-section">
+        <div class="form-control-wrap">
+            <div class="form-control-holder">
+                <input type="password" 
+                       id="t3-password" 
+                       name="p_field" 
+                       value="{presetPassword}"
+                       aria-label="{f:translate(key: 'templates.backend.loginForm.labelPassword', extensionName: 'be_defender')}"
+                       placeholder="{f:translate(key: 'templates.backend.loginForm.labelPassword', extensionName: 'be_defender')}"
+                       class="form-control input-login t3js-clearable t3js-login-password-field" 
+                       required="required" 
+                       data-rsa-encryption="t3-field-userident" />
+                <div class="form-notice-capslock hidden t3js-login-alert-capslock">
+                    <img src="{images.capslock}" 
+                         width="14" 
+                         height="14" 
+                         alt="{f:translate(key: 'login.error.capslock')}"
+                         title="{f:translate(key: 'login.error.capslock')}" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="form-group t3js-login-code-section" id="t3-login-auth-code-section">
+        <div class="form-control-wrap">
+            <div class="form-control-holder">
+                <input type="text" 
+                       id="t3-auth-code" 
+                       name="auth_code" value="{presetAuthCode}" 
+                       aria-label="{f:translate(key: 'templates.backend.loginForm.labelCode', extensionName: 'be_defender')}" 
+                       placeholder="{f:translate(key: 'templates.backend.loginForm.labelCode', extensionName: 'be_defender')}" 
+                       class="form-control input-login t3js-clearable t3js-login-code-field"
+                       required="required"
+                       autofocus="autofocus"/>
+                <div class="form-notice-capslock hidden t3js-login-alert-capslock">
+                    <img src="{images.capslock}" 
+                         width="14" 
+                         height="14" 
+                         alt="{f:translate(key: 'login.error.capslock')}" 
+                         title="{f:translate(key: 'login.error.capslock')}" />
+                </div>
+            </div>
+        </div>
+        
+        <button
+            href="#"
+            class="btn btn-block"
+            id="tx-bedefender-code-button">
+            <f:translate key="templates.backend.loginForm.getCode" extensionName="be_defender" />
+        </button>
+        
+        <script>
+            let txBedefenderTranslations = {
+                errorNoUserName : '<f:translate key="templates.backend.loginForm.jsErrorNoUserName" extensionName="be_defender" />',
+                requestSuccessMessage : '<f:translate key="templates.backend.loginForm.jsRequestSuccessMessage" extensionName="be_defender" />',
+                requestErrorMessage : '<f:translate key="templates.backend.loginForm.jsRequestErrorMessage" extensionName="be_defender" />'
+            };
+        </script>
+    </div>
+
+</f:section>

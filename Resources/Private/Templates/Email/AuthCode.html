@@ -1,0 +1,35 @@
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+      xmlns:postmaster="http://typo3.org/ns/Madj2k/Postmaster/ViewHelpers"
+      data-namespace-typo3-fluid="true">
+
+    <f:layout name="Email/{mailType}" />
+
+    <!-- PLAINTEXT -->
+    <f:section name="Plaintext"><postmaster:email.plaintextLineBreaks>
+        <postmaster:email.recipientSalutation queueRecipient="{queueRecipient}"
+               prependText="{postmaster:email.translate(key:'templates_email_authCode.headline', languageKey:'{queueRecipient.languageCode}', extensionName:'beDefender')}, "
+               appendText="!"
+               fallbackText="{postmaster:email.translate(key:'templates_email_authCode.headline', languageKey='{queueRecipient.languageCode}', extensionName:'beDefender')}!"
+        />\n\n
+
+        <postmaster:email.translate key="templates_email_authCode.text1" languageKey="{queueRecipient.languageCode}" extensionName="beDefender" />\n\n
+        
+        {authCode}\n\n
+
+    </postmaster:email.plaintextLineBreaks></f:section>
+
+
+    <!-- HTML -->
+    <f:section name="Html">
+        <h1>
+            <postmaster:email.recipientSalutation queueRecipient="{queueRecipient}"
+                   prependText="{postmaster:email.translate(key:'templates_email_authCode.headline', languageKey:'{queueRecipient.languageCode}', extensionName:'beDefender')}, "
+                   appendText="!"
+                   fallbackText="{postmaster:email.translate(key:'templates_email_authCode.headline', languageKey='{queueRecipient.languageCode}', extensionName:'beDefender')}!"
+            />
+        </h1>
+        <p><postmaster:email.translate key="templates_email_authCode.text1" languageKey="{queueRecipient.languageCode}" extensionName="beDefender" /></p>
+        <p><strong>{authCode}</strong></p>
+
+    </f:section>
+</html>
