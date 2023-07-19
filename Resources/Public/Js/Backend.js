@@ -31,16 +31,20 @@ window.addEventListener("DOMContentLoaded", (event) => {
           console.log("Processing request.");
         } else if (ajaxRequest.readyState == 4) {
           console.log("Done loading!");
-
-          let jsonResponse = JSON.parse(ajaxRequest.responseText);
-          let status = 500;
-          if (jsonResponse !== null) {
-            status = jsonResponse.status;
-          }
-          if ((status == 200) || (status == 400)) {
-            alert(txBedefenderTranslations.requestSuccessMessage);
-          } else {
+          try {
+            let jsonResponse = JSON.parse(ajaxRequest.responseText);
+            let status = 500;
+            if (jsonResponse !== null) {
+              status = jsonResponse.status;
+            }
+            if ((status == 200) || (status == 400)) {
+              alert(txBedefenderTranslations.requestSuccessMessage);
+            } else {
+              alert (txBedefenderTranslations.requestErrorMessage);
+            }
+          } catch (error) {
             alert (txBedefenderTranslations.requestErrorMessage);
+            console.error(error);
           }
 
           // enable visually and technically
