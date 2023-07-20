@@ -14,19 +14,12 @@ namespace Madj2k\BeDefender\Service;
  * The TYPO3 project - inspiring people to share!
  */
 
+use Madj2k\CoreExtended\Utility\ClientUtility;
 use Psr\Log\LoggerAwareInterface;
 use TYPO3\CMS\Core\Authentication\AuthenticationService;
-use TYPO3\CMS\Core\Crypto\Random;
-use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Database\ConnectionPool;
-use TYPO3\CMS\Core\Database\Query\QueryBuilder;
-use TYPO3\CMS\Core\Log\LogManager;
-use TYPO3\CMS\Core\Service\AbstractService;
 use TYPO3\CMS\Core\SingletonInterface;
-use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Core\Authentication\AbstractUserAuthentication;
-use TYPO3\CMS\Core\Utility\HttpUtility;
 
 /**
  * Class BackendUser
@@ -63,6 +56,9 @@ class BackendAuthenticationService extends AuthenticationService implements Logg
     {
 
         parent::initAuth($mode, $loginData, $authInfo, $pObj);
+
+        // add IP to work with X-FORWARDED-FOR
+        $this->authInfo['REMOTE_ADDR'] = ClientUtility::getIp();
 
         // add authCode!
         if (GeneralUtility::_GP('auth_code')) {
@@ -111,11 +107,24 @@ class BackendAuthenticationService extends AuthenticationService implements Logg
      */
     public function authUser(array $user): int
     {
-
         // if no authCode is set, we are not responsible!
         // BUT since we want to enforce the usage of an authCode we return 0 instead of 100 if empty
         if (! $this->login['auth_code']){
-            $this->logger->warning('No authCode given.');
+
+            $this->writelog(255, 3, 3, 2,
+                'Login-attempt from ###IP### for username "%s" without one-time code!',
+                [
+                    $this->login['uname']
+                ]
+            );
+
+            $this->logger->warning(
+                sprintf(
+                    'Login-attempt from %s for username "%s" without one-time code!',
+                    $this->authInfo['REMOTE_ADDR'],
+                    $this->login['uname']
+                )
+            );
             return 0;
         }
 
@@ -138,7 +147,20 @@ class BackendAuthenticationService extends AuthenticationService implements Logg
         // if authCode is not valid, cancel login!
         } else {
 
-            $this->logger->warning('AuthCode invalid.');
+            $this->writelog(255, 3, 3, 2,
+                'Login-attempt from ###IP### for username "%s" with invalid-time code!',
+                [
+                    $this->login['uname']
+                ]
+            );
+
+            $this->logger->warning(
+                sprintf(
+                    'Login-attempt from %s for username "%s" with invalid one-time code!',
+                    $this->authInfo['REMOTE_ADDR'],
+                    $this->login['uname']
+                )
+            );
             return 0;
         }
     }
@@ -160,4 +182,5 @@ class BackendAuthenticationService extends AuthenticationService implements Logg
         );
         $this->logger->notice('Automatic password update for user record in ' . $table . ' with uid ' . $uid);
     }
+
 }
