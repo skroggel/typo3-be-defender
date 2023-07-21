@@ -14,6 +14,7 @@ namespace Madj2k\BeDefender\Controller;
  * The TYPO3 project - inspiring people to share!
  */
 
+use Madj2k\CoreExtended\Utility\ClientUtility;
 use Madj2k\Postmaster\Mail\MailMessage;
 use Madj2k\Postmaster\Utility\FrontendLocalizationUtility;
 use Madj2k\CoreExtended\Utility\GeneralUtility;
@@ -56,8 +57,6 @@ class AuthCodeController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControl
      */
     public function generateAction(string $username): void {
 
-        $status = 400;
-
         /** @var  \Madj2k\BeDefender\Domain\Model\BackendUser $backendUser */
         if (
             ($backendUser = $this->backendUserRepository->findOneByUsername($username))
@@ -92,6 +91,7 @@ class AuthCodeController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControl
                 $mailMessage->setTo($backendUser, array(
                     'marker' => array(
                         'authCode' => $code,
+                        'requestIp' => ClientUtility::getIp()
                     ),
                 ));
 
@@ -112,13 +112,11 @@ class AuthCodeController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControl
 
                 $mailMessage->send();
             }
-
-            // set status
-            $status = 200;
         }
 
+        // for security reasons we only use one return-code and do not make a difference if a user can be found or not
         header('Content-Type: application/json');
-        echo json_encode(['status' => $status]);
+        echo json_encode(['status' => 200]);
         exit();
     }
 
