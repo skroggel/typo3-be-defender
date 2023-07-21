@@ -33,6 +33,12 @@ class BackendAuthenticationService extends AuthenticationService implements Logg
 {
 
     /**
+     * @var bool
+     */
+    protected bool $sudoMode = false;
+
+
+    /**
      * Checks if service is available
      *
      * @return bool TRUE if service is available
@@ -56,6 +62,14 @@ class BackendAuthenticationService extends AuthenticationService implements Logg
     {
 
         parent::initAuth($mode, $loginData, $authInfo, $pObj);
+
+        // since this authenticator is also used in BE for the install-tool,
+        // we need to check, if the user is logged in already
+        // and if the login status is sudo-mode!
+        $this->sudoMode =
+            isset($GLOBALS['BE_USER'])
+            && $GLOBALS['BE_USER']->user['uid'] > 0
+            && $this->login['status'] == 'sudo-mode';
 
         // add IP to work with X-FORWARDED-FOR
         $this->authInfo['REMOTE_ADDR'] = ClientUtility::getIp();
@@ -115,6 +129,11 @@ class BackendAuthenticationService extends AuthenticationService implements Logg
      */
     public function authUser(array $user): int
     {
+        // if we are about to go sudo, we are not responsible!
+        if ($this->sudoMode) {
+            return 100;
+        }
+
         // check against bots
         if (! $this->login['hash']){
             return 0;
