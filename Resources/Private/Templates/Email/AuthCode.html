@@ -16,6 +16,8 @@
         
         {authCode}\n\n
 
+        <postmaster:email.translate key="templates_email_authCode.text2" languageKey="{queueRecipient.languageCode}" extensionName="beDefender" arguments="{0: requestIp}"/>\n\n
+        
     </postmaster:email.plaintextLineBreaks></f:section>
 
 
@@ -29,7 +31,10 @@
             />
         </h1>
         <p><postmaster:email.translate key="templates_email_authCode.text1" languageKey="{queueRecipient.languageCode}" extensionName="beDefender" /></p>
+        
         <p><strong>{authCode}</strong></p>
+        
+        <p><postmaster:email.translate key="templates_email_authCode.text2" languageKey="{queueRecipient.languageCode}" extensionName="beDefender" arguments="{0: requestIp}" /></p>
 
     </f:section>
 </html>
