@@ -16,7 +16,10 @@
         
         {authCode}\n\n
 
-        <postmaster:email.translate key="templates_email_authCode.text2" languageKey="{queueRecipient.languageCode}" extensionName="beDefender" arguments="{0: requestIp}"/>\n\n
+        <postmaster:email.translate key="templates_email_authCode.text2" languageKey="{queueRecipient.languageCode}" extensionName="beDefender" arguments="{0: serverRemoteIp}" />\n\n
+
+         IP: {serverRemoteIp}\n
+         User-Agent: {serverUserAgent}\n
         
     </postmaster:email.plaintextLineBreaks></f:section>
 
@@ -34,7 +37,18 @@
         
         <p><strong>{authCode}</strong></p>
         
-        <p><postmaster:email.translate key="templates_email_authCode.text2" languageKey="{queueRecipient.languageCode}" extensionName="beDefender" arguments="{0: requestIp}" /></p>
+        <p><strong><postmaster:email.translate key="templates_email_authCode.text2" languageKey="{queueRecipient.languageCode}" extensionName="beDefender" arguments="{0: serverRemoteIp}" /></strong></p>
+        
+        <table class="colored-table">
+            <tr>
+                <th style="width:100px" class="align-left">IP:</th>
+                <td>{serverRemoteIp}</td>
+            </tr>
+            <tr>
+                <th style="width:100px" class="align-left">User-Agent:</th>
+                <td>{serverUserAgent}</td>
+            </tr>
+        </table>
 
     </f:section>
 </html>

@@ -14,6 +14,7 @@ namespace Madj2k\BeDefender\LoginProvider;
  * The TYPO3 project - inspiring people to share!
  */
 
+use Madj2k\CoreExtended\Utility\ClientUtility;
 use Madj2k\CoreExtended\Utility\GeneralUtility;
 use TYPO3\CMS\Backend\Controller\LoginController;
 use TYPO3\CMS\Backend\LoginProvider\LoginProviderInterface;
@@ -38,11 +39,14 @@ class EmailCodeLoginProvider implements LoginProviderInterface
     public function render(StandaloneView $view, PageRenderer $pageRenderer, LoginController $loginController)
     {
         $pageRenderer->loadRequireJsModule('TYPO3/CMS/Backend/UserPassLogin');
-
         $view->setTemplatePathAndFilename(GeneralUtility::getFileAbsFileName('EXT:be_defender/Resources/Private/Templates/Backend/LoginForm.html'));
+
+        // set client hash
+        $view->assign('hash', ClientUtility::getClientHash());
+
+        // if https enabled, refill username and auth_code on failure
         if (GeneralUtility::getIndpEnv('TYPO3_SSL')) {
             $view->assign('presetUsername', GeneralUtility::_GP('username'));
-            // $view->assign('presetPassword', GeneralUtility::_GP('p'));
             $view->assign('presetAuthCode', GeneralUtility::_GP('auth_code'));
         }
 

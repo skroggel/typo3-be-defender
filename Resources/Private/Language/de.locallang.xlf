@@ -52,7 +52,7 @@
 			   <target>Ihr einmaliger Login-Code für das TYPO3-Backend lautet:</target>
 		   </trans-unit>
 		   <trans-unit id="templates_email_authCode.text2">
-			   <source>The request was made via the IP address %s. If you did not request the code yourself, please contact support immediately.</source>
+			   <source>The request was made via the IP address %s. If you did not request the code yourself, please contact support immediately. Information about the browser.</source>
 			   <target>Die Anforderung erfolgte über die IP-Adresse %s. Sollten Sie den Code nicht selbst angefragt haben, wenden Sie sich bitte umgehend an den Support.</target>
 		   </trans-unit>
 

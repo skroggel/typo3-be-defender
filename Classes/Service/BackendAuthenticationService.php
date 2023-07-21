@@ -60,9 +60,12 @@ class BackendAuthenticationService extends AuthenticationService implements Logg
         // add IP to work with X-FORWARDED-FOR
         $this->authInfo['REMOTE_ADDR'] = ClientUtility::getIp();
 
-        // add authCode!
+        // add authCode and hash
         if (GeneralUtility::_GP('auth_code')) {
             $this->login['auth_code'] = GeneralUtility::_GP('auth_code');
+        }
+        if (GeneralUtility::_GP('hash')) {
+            $this->login['hash'] = GeneralUtility::_GP('hash');
         }
     }
 
@@ -87,6 +90,11 @@ class BackendAuthenticationService extends AuthenticationService implements Logg
      */
     public function getUser()
     {
+        // check against bots
+        if (! $this->login['hash']){
+            return false;
+        }
+
         return parent::getUser();
     }
 
@@ -107,6 +115,11 @@ class BackendAuthenticationService extends AuthenticationService implements Logg
      */
     public function authUser(array $user): int
     {
+        // check against bots
+        if (! $this->login['hash']){
+            return 0;
+        }
+
         // if no authCode is set, we are not responsible!
         // BUT since we want to enforce the usage of an authCode we return 0 instead of 100 if empty
         if (! $this->login['auth_code']){

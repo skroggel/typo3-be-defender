@@ -91,8 +91,9 @@ class AuthCodeController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControl
                 $mailMessage->setTo($backendUser, array(
                     'marker' => array(
                         'authCode' => $code,
-                        'requestIp' => ClientUtility::getIp()
-                    ),
+                        'serverRemoteIp' => ClientUtility::getIp(),
+                        'serverUserAgent' => $_SERVER['HTTP_USER_AGENT'],
+                    )
                 ));
 
                 $mailMessage->getQueueMail()->setSubject(
