@@ -180,7 +180,7 @@ class BackendAuthenticationService extends AuthenticationService implements Logg
         } else {
 
             $this->writelog(255, 3, 3, 2,
-                'Login-attempt from ###IP### for username "%s" with invalid-time code!',
+                'Login-attempt from ###IP### for username "%s" with invalid one-time code!',
                 [
                     $this->login['uname']
                 ]
