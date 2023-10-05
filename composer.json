@@ -18,15 +18,9 @@
     ],
     "require": {
         "php": ">=7.4",
-<<<<<<< Updated upstream
-        "typo3/cms-core": "~9.5.0",
-		"madj2k/t3-core-extended": "~9.5.23",
-		"madj2k/t3-postmaster": "~9.5.11"
-=======
         "typo3/cms-core": "~9.5.0 || ~10.4.0",
 		"madj2k/t3-core-extended": "~9.5.25 || ~10.4.0",
 		"madj2k/t3-postmaster": "~9.5.11 || ~10.4.0"
->>>>>>> Stashed changes
 	},
 	"autoload": {
         "psr-4": {
