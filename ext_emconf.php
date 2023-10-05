@@ -24,9 +24,15 @@ $EM_CONF[$_EXTKEY] = [
 	'version' => '9.5.0',
 	'constraints' => [
 		'depends' => [
+<<<<<<< Updated upstream
             'typo3' => '9.5.0-9.5.99',
             'postmaster' => '9.5.11-9.5.99',
             'core_extended' => '9.5.23-9.5.99'
+=======
+            'typo3' => '9.5.0-10.4.99',
+            'postmaster' => '9.5.11-10.4.99',
+            'core_extended' => '9.5.25-10.4.99'
+>>>>>>> Stashed changes
 		],
 		'conflicts' => [
 		],
