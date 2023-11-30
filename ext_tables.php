@@ -7,7 +7,7 @@ call_user_func(
 
 
     },
-    $_EXTKEY
+    'be_defender'
 );
 
 
