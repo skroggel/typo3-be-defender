@@ -38,6 +38,21 @@ call_user_func(
         }
 
         //=================================================================
+        // Add XClasses for extending existing classes
+        //=================================================================
+        // for TYPO3 12+
+        $GLOBALS['TYPO3_CONF_VARS']['SYS']['Objects'][\Madj2k\CoreExtended\Domain\Model\BackendUser::class] = [
+            'className' => \Madj2k\BeDefender\Domain\Model\BackendUser::class
+        ];
+
+        // for TYPO3 9.5 - 11.5 only, not required for TYPO3 12
+        \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Extbase\Object\Container\Container::class)
+            ->registerImplementation(
+                \Madj2k\CoreExtended\Domain\Model\BackendUser::class,
+                \Madj2k\BeDefender\Domain\Model\BackendUser::class
+            );
+
+        //=================================================================
         // Add TypoScript automatically
         //=================================================================
         \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTypoScript(
@@ -80,6 +95,6 @@ call_user_func(
         );
 
     },
-    $_EXTKEY
+    'be_defender'
 );
 

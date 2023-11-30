@@ -33,17 +33,35 @@ use TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager;
 class AuthCodeController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 {
     /**
-     * @var \Madj2k\BeDefender\Domain\Repository\BackendUserRepository
+     * @var \Madj2k\BeDefender\Domain\Repository\BackendUserRepository|null
      * @TYPO3\CMS\Extbase\Annotation\Inject
      */
-    protected BackendUserRepository $backendUserRepository;
+    protected ?BackendUserRepository $backendUserRepository = null;
+
+
+    /**
+     * @var \TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager|null
+     * @TYPO3\CMS\Extbase\Annotation\Inject
+     */
+    protected ?PersistenceManager $persistenceManager = null;
+
+
+    /**
+     * @var \Madj2k\BeDefender\Domain\Repository\BackendUserRepository
+     */
+    public function injectBackendUserRepository(BackendUserRepository $backendUserRepository)
+    {
+        $this->backendUserRepository = $backendUserRepository;
+    }
 
 
     /**
      * @var \TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager
-     * @TYPO3\CMS\Extbase\Annotation\Inject
      */
-    protected PersistenceManager $persistenceManager;
+    public function injectPersistenceManager(PersistenceManager $persistenceManager)
+    {
+        $this->persistenceManager = $persistenceManager;
+    }
 
 
     /**
@@ -66,8 +84,8 @@ class AuthCodeController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControl
             // add code to backendUser
             $code = GeneralUtility::getUniqueRandomNumber(5);
             if (
-                (GeneralUtility::getApplicationContext()->isDevelopment())
-                || (\TYPO3\CMS\Core\Utility\GeneralUtility::getApplicationContext()->__toString() === 'Production/Staging')
+                (\TYPO3\CMS\Core\Core\Environment::getContext()->isDevelopment())
+                || (\TYPO3\CMS\Core\Core\Environment::getContext()->__toString() === 'Production/Staging')
             ){
                 $code = '12345';
             }
@@ -80,8 +98,8 @@ class AuthCodeController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControl
             $this->persistenceManager->persistAll();
 
             if (
-                !(GeneralUtility::getApplicationContext()->isDevelopment())
-                && !(\TYPO3\CMS\Core\Utility\GeneralUtility::getApplicationContext()->__toString() === 'Production/Staging')
+                !(\TYPO3\CMS\Core\Core\Environment::getContext()->isDevelopment())
+                && !(\TYPO3\CMS\Core\Core\Environment::getContext()->__toString() === 'Production/Staging')
             ) {
                 
                 // send email
