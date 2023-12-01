@@ -33,14 +33,14 @@ use TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager;
 class AuthCodeController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
 {
     /**
-     * @var \Madj2k\BeDefender\Domain\Repository\BackendUserRepository|null
+     * @var \Madj2k\BeDefender\Domain\Repository\BackendUserRepository
      * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected ?BackendUserRepository $backendUserRepository = null;
 
 
     /**
-     * @var \TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager|null
+     * @var \TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager
      * @TYPO3\CMS\Extbase\Annotation\Inject
      */
     protected ?PersistenceManager $persistenceManager = null;
