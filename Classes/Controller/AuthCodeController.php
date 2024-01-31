@@ -101,7 +101,7 @@ class AuthCodeController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionControl
                 !(\TYPO3\CMS\Core\Core\Environment::getContext()->isDevelopment())
                 && !(\TYPO3\CMS\Core\Core\Environment::getContext()->__toString() === 'Production/Staging')
             ) {
-                
+
                 // send email
                 /** @var \Madj2k\Postmaster\Mail\MailMessage $mailMessage */
                 $mailMessage = GeneralUtility::makeInstance(MailMessage::class);
